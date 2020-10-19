@@ -4,7 +4,7 @@ import java.util.Stack;
  
 public class ShuntingYard {
  
-    public static void main(String[] args) {
+    public static void input() {
     	Scanner sc = new Scanner(System.in);
     	String input = sc.nextLine().toString();
     	sc.close();
