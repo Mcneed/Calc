@@ -1,8 +1,13 @@
 
 import java.awt.event.*;
 import java.util.*;
+import java.util.List;
+
 import javax.swing.*;
 import java.awt.*;
+
+//TODO add unary neation add a * between parenthesis and more math signs
+
 
 class calculator extends JFrame implements ActionListener {
 	// create a frame
@@ -41,7 +46,7 @@ class calculator extends JFrame implements ActionListener {
 		l.setEditable(false);
 
 		// create number buttons and some operators
-		JButton b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, ba, bs, bd, bm, be, beq, beq1, bp1, bp2;
+		JButton b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, ba, bs, bd, bm, be, beq, beq1, bp, bp1, bp2;
 
 		// create number buttons
 		b0 = new JButton("0");
@@ -63,6 +68,7 @@ class calculator extends JFrame implements ActionListener {
 		bs = new JButton("-");
 		bd = new JButton("/");
 		bm = new JButton("*");
+		bp = new JButton("^");
 		bp1 = new JButton("(");
 		bp2 = new JButton(")");
 		beq = new JButton("C");
@@ -89,6 +95,7 @@ class calculator extends JFrame implements ActionListener {
 		b1.addActionListener(c);
 		b0.addActionListener(c);
 		be.addActionListener(c);
+		bp.addActionListener(c);
 		beq.addActionListener(c);
 		beq1.addActionListener(c);
 		bp1.addActionListener(c);
@@ -110,6 +117,7 @@ class calculator extends JFrame implements ActionListener {
 		p.add(b8);
 		p.add(b9);
 		p.add(bd);
+		p.add(bp);
 		p.add(bp1);
 		p.add(b0);
 		p.add(bp2);
@@ -129,20 +137,30 @@ class calculator extends JFrame implements ActionListener {
 	}
 
 	public static void input(String equation) throws Exception {
+		
+		
+		List<String> neg = Arrays.asList(equation); 
+		
+		
+		
+		
+		
+		
 		StringBuilder spaced = new StringBuilder();
 		for (int i = 0; i < equation.length(); i++) {
 			if (i > 0) {
-				spaced.append(" ");
+				
+				spaced.append(equation.charAt(i));
+				
 			}
-
-			spaced.append(equation.charAt(i));
+			//spaced.append(equation.charAt(i));
 		} // add spacing for infix func
 
 		System.out.println(spaced);
 		String s = infixToPostfix(spaced.toString());
 
 		Stack<String> tks = new Stack<String>();
-		tks.addAll(Arrays.asList(s.trim().split("[ \t]+")));
+		tks.addAll(Arrays.asList(s.trim().split("[ \t]+")));//add to stack for shunting yard
 
 		try {
 			double r = evalRPN(tks);
@@ -158,7 +176,7 @@ class calculator extends JFrame implements ActionListener {
 
 	}
 
-	public static String infixToPostfix(String infix) {
+	public static String infixToPostfix(String infix) { //shunting yard
 		/*
 		 * To find out the precedence, we take the index of the token in the ops string
 		 * and divide by 2 (rounding down). This will give us: 0, 0, 1, 1, 2
@@ -215,6 +233,7 @@ class calculator extends JFrame implements ActionListener {
 		} catch (Exception e) {
 			y = evalRPN(tks);
 			x = evalRPN(tks);
+			System.out.println("x = " + x + " y = " + y); //test
 			if (tk.equals("+"))
 				x += y;
 			else if (tk.equals("-"))
@@ -223,6 +242,8 @@ class calculator extends JFrame implements ActionListener {
 				x *= y;
 			else if (tk.equals("/"))
 				x /= y;
+			else if (tk.equals("^"))
+				x = Math.pow(x,y);
 			else
 				throw new Exception();
 		}
