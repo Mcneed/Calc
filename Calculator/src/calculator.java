@@ -143,25 +143,24 @@ class calculator extends JFrame implements ActionListener {
 		
 		
 		
-		
-		
-		
+		String[] eq = equation.split("(?<=[-+*/])|(?=[-+*/])");
+		System.out.println(Arrays.toString(eq));
 		StringBuilder spaced = new StringBuilder();
-		for (int i = 0; i < equation.length(); i++) {
-			if (i > 0) {
-				
-				spaced.append(equation.charAt(i));
-				
-			}
-			//spaced.append(equation.charAt(i));
-		} // add spacing for infix func
+
+		for (String string : eq) {
+		    if (spaced.length() > 0) {
+		        spaced.append(" ");
+		    }
+		    spaced.append(string);
+		}
 
 		System.out.println(spaced);
-		String s = infixToPostfix(spaced.toString());
+			
+		
+		String s = infixToPostfix(spaced.toString()); //s = shunting yard
 
 		Stack<String> tks = new Stack<String>();
-		tks.addAll(Arrays.asList(s.trim().split("[ \t]+")));//add to stack for shunting yard
-
+		tks.addAll(Arrays.asList(s.trim().split("[ \t]+")));//add to stack for RPN
 		try {
 			double r = evalRPN(tks);
 			if (!tks.empty())
@@ -187,6 +186,7 @@ class calculator extends JFrame implements ActionListener {
 		Stack<Integer> s = new Stack<>();
 
 		for (String token : infix.split("\\s")) {
+		
 			if (token.isEmpty())
 				continue;
 			char c = token.charAt(0);
