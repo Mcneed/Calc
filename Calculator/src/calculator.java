@@ -137,9 +137,20 @@ class calculator extends JFrame implements ActionListener {
       
         
     } 
+   
     public static void input(String equation) throws Exception {
+    	StringBuilder spaced = new StringBuilder();
+    	for (int i = 0; i < equation.length(); i++) {
+    	   if (i > 0) {
+    	      spaced.append(" ");
+    	    }
+
+    	   spaced.append(equation.charAt(i));
+    	}//add spacing for infix func
     	
-        String s = infixToPostfix(equation);
+    	
+    	System.out.println(spaced);
+        String s = infixToPostfix(spaced.toString());
         
         Stack<String> tks = new Stack<String>();
         tks.addAll(Arrays.asList(s.trim().split("[ \t]+")));
